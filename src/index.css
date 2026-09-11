@@ -1,0 +1,149 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+/* Header Base - Clean e Claro */
+.header-container {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 0 1.5rem;
+}
+
+/* Container centralizado para limitar o espaçamento das telas */
+.header-content {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 55px; /* Reduzido levemente para um header mais equilibrado */
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.30);
+}
+
+/* Navegação compacta e alinhada */
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Botões mais próximos um do outro */
+}
+
+.nav-button {
+  text-decoration: none;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+/* Estado Hover */
+.nav-button:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* Container Principal */
+main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Título */
+main h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.5rem;
+}
+
+/* Linha Base das Abas */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 2rem;
+}
+
+/* Botão da Aba */
+.tab {
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.25rem;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+  bottom: -2px; /* Sobrepõe a borda inferior do container */
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+/* Hover na Aba inativa */
+.tab:hover {
+  color: #2563eb;
+  background-color: #f8fafc;
+}
+
+/* Aba Ativa (aplicada dinamicamente via pathname) */
+.tab.active {
+  color: #2563eb;
+  background-color: #eff6ff;
+  border-bottom: 2px solid #2563eb;
+}
+/* Reseta margens padrão da página */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-border-box;
+}
+
+/* 1. Estrutura de altura total da tela */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8fafc; /* Um fundo levemente cinza dá destaque ao conteúdo */
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* 2. Conteúdo Central (Flex: 1 empurra o footer para o final) */
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1000px;
+
+  box-sizing: border-box;
+}
+
+/* 3. Rodapé Estilizado e Centralizado */
+.footer-container {
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  text-align: center;
+  padding: 1.25rem 1.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+}
