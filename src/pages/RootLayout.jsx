@@ -4,6 +4,7 @@ import logoImg from "../assets/logo.png"; // Ajuste o caminho da sua imagem
 export default function RootLayout() {
   return (
     <div className="app-container">
+
       <header className="header-container">
         <div className="header-content">
           <Link to="/" className="logo-link">
@@ -16,7 +17,7 @@ export default function RootLayout() {
         </div>
       </header>
 
-      {/* Onde o conteúdo das páginas entra */}
+
       <div className="main-content">
         <Outlet />
       </div>
