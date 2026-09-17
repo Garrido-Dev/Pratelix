@@ -1,16 +1,73 @@
-# React + Vite
+# 📦 Pratelix
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O **Pratelix** é um aplicativo web para controle e gerenciamento de estoque de produtos, desenvolvido com React. Ele permite listar itens em uma tabela, cadastrar novos produtos através de um formulário e gerenciar o estado global do estoque.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Funcionalidades Atuais
 
-## React Compiler
+*   **Listagem de Itens:** Visualização clara de todos os produtos cadastrados através de uma tabela estruturada.
+*   **Cadastro de Itens:** Formulário dinâmico para adicionar novos produtos ao estoque.
+*   **Regras de Negócio Isoladas:** Uso de classes JavaScript estruturadas para garantir a organização dos dados de cada item.
+*   **Gerenciamento de Estado:** Contexto global unificado (`StockContext`) para controle em tempo real dos itens de estoque.
+*   **Estilização Isolada:** Visual moderno utilizando *CSS Modules* para evitar conflito de estilos entre componentes.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologias Utilizadas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+*   [React](https://react.dev) — Biblioteca JavaScript para construção de interfaces.
+*   [CSS Modules](https://github.com) — Estilização de componentes de forma isolada.
+*   [JavaScript (ES6+)](https://mozilla.org) — Lógica de programação e criação de entidades.
+
+---
+
+## 📁 Estrutura de Pastas Principal
+
+A estrutura atual do código fonte (`src/`) está organizada da seguinte forma:
+
+```text
+src/
+├── components/          # Componentes visuais (Tabela, Formulário e Estilos)
+├── contexts/            # Contextos do React para controle global (Estoque)
+├── entities/            # Classes e moldes de dados (StockItem)
+├── pages/               # Páginas do aplicativo (Criar Item, Home, etc.)
+├── App.jsx              # Componente principal
+└── index.css            # Estilos globais do projeto
+```
+
+---
+
+## 💻 Como Rodar o Projeto Localmente
+
+Siga os passos abaixo para testar o projeto no seu computador:
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com
+   ```
+
+2. **Acesse a pasta do projeto:**
+   ```bash
+   cd pratelix
+   ```
+
+3. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+4. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+
+5. Abra o navegador no endereço indicado no seu terminal (geralmente `http://localhost:5173`).
+
+---
+
+## ⚠️ Status do Projeto
+
+> 🛠️ **Em Desenvolvimento:** Este projeto está sendo construído ativamente e novas funcionalidades estão sendo adicionadas constantemente. Por se tratar de uma versão de testes, o sistema **pode conter erros ou comportamentos inesperados**.
+
+---
