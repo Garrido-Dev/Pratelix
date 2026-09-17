@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const StockContext = createContext({});
 
 // { name, description, quantity, price, category, createdAt, updatedAt}
@@ -30,7 +31,7 @@ const stock = {
 }
 
   return (
-  <StockContext.Provider value={stock}>
+    <StockContext.Provider value={stock}>
     {children}
     </StockContext.Provider>
   )
