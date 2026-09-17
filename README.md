@@ -2,6 +2,14 @@
 
 O **Pratelix** é um aplicativo web para controle e gerenciamento de estoque de produtos, desenvolvido com React. Ele permite listar itens em uma tabela, cadastrar novos produtos através de um formulário e gerenciar o estado global do estoque.
 
+🔗 **Link do projeto online:** [Acesse o Pratelix aqui](https://garrido-dev.github.io/Pratelix/)
+
+---
+
+## ⚠️ Status do Projeto
+
+> 🛠️ **Em Desenvolvimento:** Este projeto está sendo construído ativamente e novas funcionalidades estão sendo adicionadas constantemente. Por se tratar de uma versão de testes, o sistema **pode conter erros ou comportamentos inesperados**.
+
 ---
 
 ## 🚀 Funcionalidades Atuais
@@ -33,7 +41,7 @@ src/
 ├── entities/            # Classes e moldes de dados (StockItem)
 ├── pages/               # Páginas do aplicativo (Criar Item, Home, etc.)
 ├── App.jsx              # Componente principal
-└── index.css            # Estilos globais do projeto
+└── index.css            # Estilos globals do projeto
 ```
 
 ---
@@ -63,11 +71,3 @@ Siga os passos abaixo para testar o projeto no seu computador:
    ```
 
 5. Abra o navegador no endereço indicado no seu terminal (geralmente `http://localhost:5173`).
-
----
-
-## ⚠️ Status do Projeto
-
-> 🛠️ **Em Desenvolvimento:** Este projeto está sendo construído ativamente e novas funcionalidades estão sendo adicionadas constantemente. Por se tratar de uma versão de testes, o sistema **pode conter erros ou comportamentos inesperados**.
-
----
