@@ -25,9 +25,24 @@ export function StockContextProvider({ children }) {
         return updatedItems
     }) 
   }
+
+  const deleteItem = (itemId)=>{
+    setItems((currentState) =>{
+      const updatedItems = currentState.filter(item=>item.id !== itemId)
+      localStorage.setItem('obc-react-stock', JSON.stringify(updatedItems))
+      return updatedItems
+    })
+  }
+
+  const getItem = (itemId)=>{
+    return items.find(item => item.id === +itemId)
+  }
+
 const stock = {
     items,
-    addItem
+    addItem,
+    deleteItem,
+    getItem
 }
 
   return (

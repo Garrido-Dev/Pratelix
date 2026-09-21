@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import useStock from '../hooks/useStock'
 import styles from './ItemsTable.module.css'
+import DeleteButton from './DeleteButton'
 
 export default function ItemsTable() {
   const { items } = useStock()
@@ -32,6 +33,10 @@ export default function ItemsTable() {
                   <Link to={`/items/${item.id}/update`} className={styles.btnEdit}>
                     Atualizar
                   </Link>
+                  <DeleteButton 
+                  itemName={item.name}
+                  itemId={item.id}
+                  />
                 </div>
               </td>
             </tr>

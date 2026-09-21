@@ -30,10 +30,11 @@
 
 .table tbody tr {
   transition: background-color 0.15s ease;
+  cursor: pointer;
 }
 
 .table tbody tr:hover {
-  background-color: #f8fafc;
+  background-color: #e2e8f0;
 }
 
 .actions {
@@ -50,10 +51,17 @@
   padding: 6px 14px;
   font-size: 0.875rem;
   font-weight: 500;
+  color: #000000;
+  background-color: #e5e5e5;
+  border: 1px solid transparent;
   border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.25;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
+
 
 .btnView {
   background-color: #2563eb;
@@ -71,5 +79,5 @@
 }
 
 .btnEdit:hover {
-  background-color: #e5e7eb;
+  background-color: #b3b7c0;
 }

@@ -11,7 +11,7 @@ export default function ItemsLayout(){
                     <NavLink to="/items"
                     end
                     className={({isActive})=> `tab ${isActive ? "active" : ""}`}
-                    >Todos os itens</NavLink>
+                    >Todos os Itens</NavLink>
 
                     <NavLink to="/items/new"
                     className={({isActive})=> `tab ${isActive ? "active" : ""}`}

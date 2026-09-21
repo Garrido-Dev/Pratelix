@@ -1,0 +1,25 @@
+.btnDelete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #ef4444;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btnDelete:hover {
+  background-color: #dc2626;
+}
+
+.btnDelete:active {
+  transform: scale(0.98);
+}

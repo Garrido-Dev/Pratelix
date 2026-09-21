@@ -23,7 +23,7 @@ export default function RootLayout() {
       </div>
 
       <footer className="footer-container">
-        <p>Feito com React e React Router</p>
+        <p>Feito com React e React Router por Garrido-Dev</p>
       </footer>
     </div>
   );
