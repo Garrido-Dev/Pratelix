@@ -38,11 +38,29 @@ export function StockContextProvider({ children }) {
     return items.find(item => item.id === +itemId)
   }
 
+  const updateItem = (updatedItem)=>{
+    setItems((currentState) => {
+      const itemIndex = currentState.findIndex((item) => item.id === +updatedItem.id)
+
+      if (itemIndex === -1) {
+        return currentState
+      }
+
+      const updatedItems = currentState.map((item) =>
+        item.id === +updatedItem.id ? { ...item, ...updatedItem, updatedAt: new Date() } : item
+      )
+
+      localStorage.setItem("obc-react-stock", JSON.stringify(updatedItems))
+      return updatedItems
+    })
+  }
+
 const stock = {
     items,
     addItem,
     deleteItem,
-    getItem
+    getItem,
+    updateItem
 }
 
   return (
