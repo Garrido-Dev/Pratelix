@@ -8,8 +8,6 @@ O **Pratelix** é uma aplicação web completa desenvolvida para facilitar o con
 
 ## 📸 Demonstração em Imagens
 
-> 💡 *Adicione abaixo prints das principais páginas do seu sistema ou um GIF/vídeo do projeto rodando.*
-
 | Dashboard Principal | Visualização Individual do Item |
 | :---: | :---: |
 | ![Dashboard](./src/assets/print.png) | ![Detalhes do Item](./src/assets/detalhe-item.png) |
