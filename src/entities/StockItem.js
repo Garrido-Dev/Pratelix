@@ -6,8 +6,8 @@ export const CATEGORIES = [
 ]
 
 export default class StockItem {
-    constructor ({id, name, description, quantity, price, category, createdAt, updatedAt}){
-        this.id = id ?? Math.floor(Math.random()*10000000)
+    constructor ({name, description, quantity, price, category}){
+        this.id = Math.floor(Math.random()*10000000)
         this.name = name
         this.description = description
         this.quantity = +quantity
