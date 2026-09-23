@@ -8,43 +8,36 @@ export default function ItemForm({ itemToUpdate }) {
   const defaultItem = {
     name: "",
     description: "",
-    quantity: 0, 
+    quantity: 0,
     price: 0,
     category: ""
   }
 
   const [item, setItem] = useState(itemToUpdate ? itemToUpdate : defaultItem)
-  const {addItem, updateItem} = useStock()
+  const {addItem} = useStock()
   const inputRef = useRef(null)
 
   const handleChange = (ev) => {
+    const { name, value } = ev.target
+
     setItem(currentState => ({
       ...currentState,
-      [ev.target.name]: ev.target.value
+      [name]: value
     }))
   }
 
-  const handleSubmit = (ev)=>{
+  const handleSubmit = (ev) => {
     ev.preventDefault()
 
     try{
-      
-      if(itemToUpdate){
-        updateItem(itemToUpdate.id, item)
-        alert("Item Atualizado!")
-
-      } else {
       const validItem = new StockItem(item)
       addItem(validItem)
       setItem(defaultItem)
       alert("item cadastrado com sucesso!")
       inputRef.current.focus()
-      }
-
     }catch(err){
       console.log(err.messager)
     }
-
   }
 
   return (
@@ -124,7 +117,7 @@ export default function ItemForm({ itemToUpdate }) {
       </div>
 
       <button type="submit" className={styles.btnSubmit}>
-        Salvar
+        {itemToUpdate ? "Atualizar" : "Salvar"}
       </button>
     </form>
   )
