@@ -6,15 +6,15 @@ export const CATEGORIES = [
 ]
 
 export default class StockItem {
-    constructor ({name, description, quantity, price, category}){
-        this.id = Math.floor(Math.random()*10000000)
+    constructor ({id, name, description, quantity, price, category, createdAt, updatedAt}){
+        this.id = id ?? Math.floor(Math.random()*10000000)
         this.name = name
         this.description = description
         this.quantity = +quantity
         this.price = +price
         this.category = category
-        this.createdAt = new Date()
-        this.updatedAt = new Date()
+        this.createdAt = createdAt ? new Date(createdAt) : new Date()
+        this.updatedAt = updatedAt ? new Date(updatedAt) : new Date()
         this.#validate()
     }
 
