@@ -1,25 +1,23 @@
+import { useState } from "react";
 import useStock from "../hooks/useStock";
+import { CATEGORIES } from "../entities/StockItem";
+import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-  PointElement,
-  LineElement,
   ArcElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar, Line, Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 
-// Registrar todos os elementos necessários para múltiplos tipos de gráficos
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  PointElement,
-  LineElement,
   ArcElement,
   Title,
   Tooltip,
@@ -28,122 +26,165 @@ ChartJS.register(
 
 export default function Home() {
   const { items } = useStock();
+  const [selectedCategory, setSelectedCategory] = useState("Todas");
 
-  // --- 1. CÁLCULO DAS MÉTRICAS GLOBAIS ---
-  const totalProdutosDiferentes = items.length;
-  const totalItensFisicos = items.reduce((acc, item) => acc + Number(item.quantity), 0);
-  const valorTotalEstoque = items.reduce((acc, item) => acc + (Number(item.quantity) * Number(item.price)), 0);
+  // --- FILTRAGEM DOS ITENS ---
+  const filteredItems = items.filter((item) => {
+    if (selectedCategory === "Todas") return true;
+    return item.category === selectedCategory;
+  });
 
-  // --- 2. CONFIGURAÇÃO DOS DADOS DOS GRÁFICOS ---
-  const itemNames = items.map((item) => item.name);
+  // --- CÁLCULO DAS MÉTRICAS GLOBAIS ---
+  const totalProdutosDiferentes = filteredItems.length;
+  const totalItensFisicos = filteredItems.reduce((acc, item) => acc + Number(item.quantity), 0);
+  const valorTotalEstoque = filteredItems.reduce((acc, item) => acc + (Number(item.quantity) * Number(item.price)), 0);
 
-  // Gráfico 1: Quantidade por Item (Barras)
+  // --- CÁLCULO DO VALOR TOTAL POR CATEGORIA ---
+  const valoresPorCategoria = CATEGORIES.reduce((acc, cat) => {
+    const totalDaCategoria = items
+      .filter((item) => item.category === cat)
+      .reduce((sum, item) => sum + (Number(item.quantity) * Number(item.price)), 0);
+    
+    acc[cat] = totalDaCategoria;
+    return acc;
+  }, {});
+
+  // --- CONFIGURAÇÃO DOS DADOS DOS GRÁFICOS ---
+  const itemNames = filteredItems.map((item) => item.name);
+
   const qtdData = {
     labels: itemNames,
     datasets: [
       {
         label: "Qtd em Estoque",
-        data: items.map((item) => item.quantity),
+        data: filteredItems.map((item) => item.quantity),
         backgroundColor: "rgba(54, 162, 235, 0.7)",
-        borderRadius: 4,
       },
     ],
   };
 
-  // Gráfico 2: Valor Unitário por Item (Linha)
   const precoData = {
     labels: itemNames,
     datasets: [
       {
         label: "Preço Unitário (R$)",
-        data: items.map((item) => item.price),
-        borderColor: "rgba(255, 99, 132, 1)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        tension: 0.3,
-        fill: true,
+        data: filteredItems.map((item) => item.price),
+        backgroundColor: "rgba(255, 159, 64, 0.7)",
       },
     ],
   };
 
-  // Gráfico 3: Valor Total da Mercadoria por Item (Rosca)
-  const totalMercadoriaData = {
-    labels: itemNames,
+  const categoriaFinanceiroData = {
+    labels: CATEGORIES,
     datasets: [
       {
-        label: "Total Acumulado (R$)",
-        data: items.map((item) => item.quantity * item.price),
+        label: "Total por Categoria (R$)",
+        data: CATEGORIES.map((cat) => valoresPorCategoria[cat]),
         backgroundColor: [
           "rgba(75, 192, 192, 0.7)",
           "rgba(255, 206, 86, 0.7)",
           "rgba(153, 102, 255, 0.7)",
-          "rgba(255, 159, 64, 0.7)",
-          "rgba(201, 203, 207, 0.7)",
+          "rgba(255, 99, 132, 0.7)",
         ],
       },
     ],
   };
 
-  // Opções compartilhadas para deixar os gráficos compactos e responsivos
   const commonOptions = {
     responsive: true,
-    maintainAspectRatio: false, // Permite controlar a altura pelo CSS do container
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: "top", labels: { boxWidth: 12, font: { size: 11 } } },
     },
   };
 
   return (
-    <div style={{ padding: "30px", backgroundColor: "#f8f9fa", fontFamily: "'Segoe UI', Roboto, sans-serif", minHeight: "100vh" }}>
-      <h1 style={{ marginBottom: "24px", color: "#212529", fontWeight: "600" }}>Dashboard de Inventário</h1>
+    // 1. Removido o 'fluid' para conter o conteúdo no centro em telas grandes
+    // 2. Adicionado 'mx-auto' e uma largura máxima de segurança para telas UltraWide
+    <Container className="py-5 bg-light min-vh-100 mx-auto" style={{ maxWidth: "1300px" }}>
+      
+      {/* Cabeçalho com Alinhamento */}
+      <Row className="mb-5 align-items-center border-bottom pb-4">
+        <Col xs={12} md={7}>
+          <h1 className="text-dark fw-bold m-0" style={{ letterSpacing: "-0.5px" }}>Dashboard de Inventário</h1>
+          <p className="text-muted m-0 mt-1">Acompanhe as métricas globais e o status do seu estoque.</p>
+        </Col>
+        <Col xs={12} md={5} className="mt-3 mt-md-0 d-flex justify-content-md-end">
+          <Form.Group className="d-flex align-items-center bg-white p-2 px-3 rounded-pill shadow-sm border" style={{ minWidth: "290px" }}>
+            <Form.Label className="me-2 mb-0 fw-semibold text-secondary text-nowrap small text-uppercase">Filtrar:</Form.Label>
+            <Form.Select 
+              value={selectedCategory} 
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="border-0 bg-transparent fw-bold text-primary p-0 m-0 style-select"
+              style={{ focusOutline: "none", boxShadow: "none", cursor: "pointer" }}
+            >
+              <option value="Todas">Todas as Categorias</option>
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
 
-      {/* --- SEÇÃO 1: CARDS INDICADORES --- */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "20px", marginBottom: "30px" }}>
-        
-        <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.04)", border: "1px solid #e9ecef" }}>
-          <span style={{ fontSize: "14px", color: "#6c757d", fontWeight: "500", textTransform: "uppercase" }}>Produtos Cadastrados</span>
-          <h2 style={{ fontSize: "28px", margin: "8px 0 0 0", color: "#212529" }}>{totalProdutosDiferentes}</h2>
-        </div>
+      {/* --- SEÇÃO 1: CARDS INDICADORES GERAIS --- */}
+      <Row className="g-4 mb-5">
+        <Col xs={12} sm={4}>
+          <Card className="border-0 shadow-sm p-4 bg-body rounded-4 transition-card" style={{ borderLeft: "5px solid #0d6efd" }}>
+            <Card.Subtitle className="text-uppercase text-muted fw-bold small mb-2" style={{ fontSize: "11px", letterSpacing: "0.5px" }}>Produtos ({selectedCategory})</Card.Subtitle>
+            <Card.Title className="fs-1 fw-bold text-dark mb-0">{totalProdutosDiferentes}</Card.Title>
+          </Card>
+        </Col>
 
-        <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.04)", border: "1px solid #e9ecef" }}>
-          <span style={{ fontSize: "14px", color: "#6c757d", fontWeight: "500", textTransform: "uppercase" }}>Quantidade Total</span>
-          <h2 style={{ fontSize: "28px", margin: "8px 0 0 0", color: "#212529" }}>{totalItensFisicos} unidades</h2>
-        </div>
+        <Col xs={12} sm={4}>
+          <Card className="border-0 shadow-sm p-4 bg-body rounded-4 transition-card" style={{ borderLeft: "5px solid #6c757d" }}>
+            <Card.Subtitle className="text-uppercase text-muted fw-bold small mb-2" style={{ fontSize: "11px", letterSpacing: "0.5px" }}>Quantidade ({selectedCategory})</Card.Subtitle>
+            <Card.Title className="fs-1 fw-bold text-dark mb-0">{totalItensFisicos} <span className="fs-5 text-muted fw-normal">unidades</span></Card.Title>
+          </Card>
+        </Col>
 
-        <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.04)", border: "1px solid #e9ecef" }}>
-          <span style={{ fontSize: "14px", color: "#6c757d", fontWeight: "500", textTransform: "uppercase" }}>Patrimônio Líquido</span>
-          <h2 style={{ fontSize: "28px", margin: "8px 0 0 0", color: "#198754" }}>R$ {valorTotalEstoque.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</h2>
-        </div>
+        <Col xs={12} sm={4}>
+          <Card className="border-0 shadow-sm p-4 bg-body rounded-4 transition-card" style={{ borderLeft: "5px solid #198754" }}>
+            <Card.Subtitle className="text-uppercase text-muted fw-bold small mb-2" style={{ fontSize: "11px", letterSpacing: "0.5px" }}>Valor em Estoque ({selectedCategory})</Card.Subtitle>
+            <Card.Title className="fs-1 fw-bold text-success mb-0">
+              R$ {valorTotalEstoque.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+            </Card.Title>
+          </Card>
+        </Col>
+      </Row>
 
-      </div>
+      {/* --- SEÇÃO 2: GRID DE GRÁFICOS --- */}
+      <Row className="g-4">
+        {/* Gráfico 1 */}
+        <Col xs={12} md={6} lg={4}>
+          <Card className="border-0 shadow-sm p-4 bg-body rounded-4">
+            <Card.Title className="fs-6 text-dark mb-4 fw-bold text-uppercase" style={{ fontSize: "12px", letterSpacing: "0.5px" }}>Quantidades por Item</Card.Title>
+            <div style={{ height: "240px" }}>
+              <Bar data={qtdData} options={commonOptions} />
+            </div>
+          </Card>
+        </Col>
 
-      {/* --- SEÇÃO 2: GRID DE GRÁFICOS MENORES --- */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "25px" }}>
-        
-        {/* Card Gráfico 1 */}
-        <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.04)", border: "1px solid #e9ecef" }}>
-          <h3 style={{ fontSize: "16px", marginBottom: "15px", color: "#495057" }}>Volumetria (Quantidade por Item)</h3>
-          <div style={{ height: "220px" }}>
-            <Bar data={qtdData} options={commonOptions} />
-          </div>
-        </div>
+        {/* Gráfico 2 */}
+        <Col xs={12} md={6} lg={4}>
+          <Card className="border-0 shadow-sm p-4 bg-body rounded-4">
+            <Card.Title className="fs-6 text-dark mb-4 fw-bold text-uppercase" style={{ fontSize: "12px", letterSpacing: "0.5px" }}>Preço Unitário por Produto</Card.Title>
+            <div style={{ height: "240px" }}>
+              <Bar data={precoData} options={commonOptions} />
+            </div>
+          </Card>
+        </Col>
 
-        {/* Card Gráfico 2 */}
-        <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.04)", border: "1px solid #e9ecef" }}>
-          <h3 style={{ fontSize: "16px", marginBottom: "15px", color: "#495057" }}>Preço Unitário por Produto</h3>
-          <div style={{ height: "220px" }}>
-            <Line data={precoData} options={commonOptions} />
-          </div>
-        </div>
-
-        {/* Card Gráfico 3 */}
-        <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.04)", border: "1px solid #e9ecef" }}>
-          <h3 style={{ fontSize: "16px", marginBottom: "15px", color: "#495057" }}>Distribuição do Valor de Mercadoria</h3>
-          <div style={{ height: "220px" }}>
-            <Doughnut data={totalMercadoriaData} options={commonOptions} />
-          </div>
-        </div>
-
-      </div>
-    </div>
+        {/* Gráfico 3 */}
+        <Col xs={12} md={6} lg={4}>
+          <Card className="border-0 shadow-sm p-4 bg-body rounded-4">
+            <Card.Title className="fs-6 text-dark mb-4 fw-bold text-uppercase" style={{ fontSize: "12px", letterSpacing: "0.5px" }}>Valor Acumulado por Categoria</Card.Title>
+            <div style={{ height: "240px" }}>
+              <Doughnut data={categoriaFinanceiroData} options={commonOptions} />
+            </div>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
