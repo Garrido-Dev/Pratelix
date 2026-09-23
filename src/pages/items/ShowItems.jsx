@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import useStock from "/src/hooks/useStock.js";
 import DeleteButton from '/src/components/DeleteButton.jsx';
-import { Container, Card, Row, Col, Button, Badge } from "react-bootstrap";
+import { Container, Card, Row, Col, Badge } from "react-bootstrap";
 
 export default function ShowItems() {
   const { getItem } = useStock();
@@ -55,7 +55,7 @@ export default function ShowItems() {
           <Col xs={12} sm={6}>
             <div className="bg-light p-3 rounded-3 border">
               <span className="text-muted small fw-semibold text-uppercase d-block mb-1">Preço Unitário</span>
-              <span className="fs-3 fw-bold text-success">R\$ {precoFormatado}</span>
+              <span className="fs-3 fw-bold text-success">R$ {precoFormatado}</span>
             </div>
           </Col>
         </Row>
