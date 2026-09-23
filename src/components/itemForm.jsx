@@ -13,8 +13,8 @@ export default function ItemForm({ itemToUpdate }) {
     category: ""
   }
 
-  const [item, setItem] = useState(itemToUpdate ? itemToUpdate : defaultItem)
-  const {addItem} = useStock()
+  const [item, setItem] = useState(itemToUpdate ? { ...itemToUpdate } : defaultItem)
+  const { addItem, updateItem } = useStock()
   const inputRef = useRef(null)
 
   const handleChange = (ev) => {
@@ -29,14 +29,21 @@ export default function ItemForm({ itemToUpdate }) {
   const handleSubmit = (ev) => {
     ev.preventDefault()
 
-    try{
-      const validItem = new StockItem(item)
+    try {
+      const validItem = new StockItem({ ...item, quantity: +item.quantity, price: +item.price })
+
+      if (itemToUpdate) {
+        updateItem(validItem)
+        alert("item atualizado com sucesso!")
+        return
+      }
+
       addItem(validItem)
       setItem(defaultItem)
       alert("item cadastrado com sucesso!")
-      inputRef.current.focus()
-    }catch(err){
-      console.log(err.messager)
+      inputRef.current?.focus()
+    } catch (err) {
+      console.log(err.message)
     }
   }
 
